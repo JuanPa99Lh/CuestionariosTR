@@ -50,7 +50,7 @@ router.get("/", function(req, res){
 			              { $project: { puntos: 1, _id: 0 } } //campos que regresa
 			           ],
 					as: "pregunta_contestada"
-				}},
+				}}
 			])
 			.sort({pregunta_contestada: 'asc', opcion4: 'desc'}) //-----ORDENAMIENTO AQUI  <<<<<<<<<<<<<<<<<<<<<<<<<----------
 			.exec(function(err, pregs){
@@ -66,7 +66,7 @@ router.get("/", function(req, res){
 					//console.log(pregs);
 					try{
 						res.status(200);
-						return res.render("app/home", {preguntas: pregs});	
+						return; 
 					}
 					catch(error){
 						console.log("Error: ", error);
@@ -366,7 +366,7 @@ router.get("/contestar/:id", function(req, res){
 					res.status(200);
 					return res.redirect("/app");
 				}
-				else{
+				
 					// Buscar pregunta y Mostrar al Usuario
 					// para que la conteste
 					Pregunta.findById(req.params.id)
@@ -375,14 +375,14 @@ router.get("/contestar/:id", function(req, res){
 							res.locals.pregunta = preg;
 							res.status(200);
 							return res.render("app/preguntas/contestar");
-						}
-						else{
+						
+						
 							console.log("Preg null contestar");
 							res.status(200);
 							return res.redirect("/app");
-						}
+						
 					});
-				}
+				
 			}
 			else{
 				console.log("Err Pregunta_Contestada: " + err);
@@ -445,7 +445,7 @@ router.route("/contestar")
 						var bndIscorrecta = false;
 						//console.log("isPreguntaContestada: " + isPreguntaContestada);
 						
-						if(isPreguntaContestada == false){
+						if(isPreguntaContestada === false){
 							Pregunta.findById(req.fields.id)
 								.exec(function(err, preg){
 								if(preg != null){
